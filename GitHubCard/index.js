@@ -1,8 +1,67 @@
+import axios from 'axios';
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+const followersArray = ['ChanceCafferty', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+const entryPoint = document.querySelector('.cards');
+
+function gitCardMaker(gitData) {
+  const gitCard = document.createElement('div');
+  const gitImage = document.createElement('img')
+  const gitInfo = document.createElement('div');
+  const gitName = document.createElement('h3');
+  const gitUsername = document.createElement('p');
+  const gitLocation = document.createElement('p');
+  const gitProfile = document.createElement('p');
+  const gitProfileLink = document.createElement('a');
+  const gitFollowers = document.createElement('p');
+  const gitFollowing = document.createElement('p');
+  const gitBio = document.createElement('p');
+
+  gitImage.src = gitData.avatar_url;
+  gitName.textContent = gitData.name;
+  gitUsername.textContent = gitData.login;
+  gitLocation.textContent = `Location: ${gitData.location}`;
+  gitProfile.textContent = 'Profile: ';
+  gitProfileLink.textContent = 'Link to profile';
+  gitProfileLink.href = gitData.html_url;
+  gitFollowers.textContent = `Followers: ${gitData.followers}`;
+  gitFollowing.textContent = `Following: ${gitData.following}`;
+  gitBio.textContent = `Bio: ${gitData.bio}`;
+
+  gitCard.classList.add('card');
+  gitInfo.classList.add('card-info');
+  gitName.classList.add('name');
+  gitUsername.classList.add('username');
+
+  gitCard.appendChild(gitImage);
+  gitCard.appendChild(gitInfo)
+  gitInfo.appendChild(gitName);
+  gitInfo.appendChild(gitUsername);
+  gitInfo.appendChild(gitLocation);
+  gitInfo.appendChild(gitProfile);
+  gitProfile.appendChild(gitProfileLink);
+  gitInfo.appendChild(gitFollowers);
+  gitInfo.appendChild(gitFollowing);
+  gitInfo.appendChild(gitBio);
+
+  return gitCard;
+}
+
+function makeCard(userArray) {
+  userArray.forEach(user => {
+    axios.get(`https://api.github.com/users/${user}`)
+    .then(res => {
+      const gitCard = gitCardMaker(res.data);
+      entryPoint.appendChild(gitCard)
+    })
+  })
+}
+
+makeCard(followersArray);
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +87,6 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
