@@ -26,7 +26,7 @@ function gitCardMaker(gitData) {
   gitUsername.textContent = gitData.login;
   gitLocation.textContent = `Location: ${gitData.location}`;
   gitProfile.textContent = 'Profile: ';
-  gitProfileLink.textContent = 'Link to profile';
+  gitProfileLink.textContent = `${gitData.html_url}`;
   gitProfileLink.href = gitData.html_url;
   gitFollowers.textContent = `Followers: ${gitData.followers}`;
   gitFollowing.textContent = `Following: ${gitData.following}`;
